@@ -25,8 +25,8 @@ parameters = {
 
 def send_telegram(telegram_message):
     send_text = "https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage?chat_id=" + BOT_CHATID + "&parse_mode=Markdown&text=" + telegram_message
-    response = requests.get(send_text)
-    print(response)
+    #response = requests.get(send_text)
+    #print(response)
 
 weather_api = requests.get(url="https://api.openweathermap.org/data/2.5/forecast", params= parameters)
 weather_api.raise_for_status()
