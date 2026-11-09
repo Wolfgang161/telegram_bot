@@ -28,9 +28,12 @@ except:
     send_telegram("There is a problem with the openweathermap request. Do not trust the forecast.")
 else:
     weather_data = weather_api.json()
-    for x in range(0,len(weather_data["list"])):
+try:
+    for x in range(0, len(weather_data["list"])):
         if weather_data["list"][x]["weather"][0]["id"] < 700:
             will_it_rain = True
+except KeyError:
+    send_telegram(f"{str(weather_data)} Do not trust the forecast.")  
 
 if will_it_rain:
     send_telegram("It will rain today. Remember to bring an umbrella ☔. Sent via GitHub.")
