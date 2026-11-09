@@ -16,19 +16,23 @@ parameters = {
     "cnt": 4,
 }
 
-def send_telegram(telegram_message):
-    send_text = "https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage?chat_id=" + BOT_CHATID + "&parse_mode=Markdown&text=" + telegram_message
-    requests.get(send_text)
-
-#weather_api = requests.get(url="https://api.openweathermap.org/data/2.5/forecast", params= parameters)
-#weather_api.raise_for_status()
-#weather_data = weather_api.json()
-
 will_it_rain = False
 
-#for x in range(0,len(weather_data["list"])):
-#    if weather_data["list"][x]["weather"][0]["id"] < 700:
-#        will_it_rain = True
+def send_telegram(telegram_message):
+    send_text="https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage?chat_id=" + BOT_CHATID + "&parse_mode=Markdown&text=" + telegram_message
+    requests.get(send_text)
+    #print(response)
+
+try:
+    weather_api = requests.get(url="https://api.openweathermap.org/data/2.5/forecast", params= parameters)
+except:
+    send_telegram("There is a problem with the openweathermap request")
+else:
+    weather_data = weather_api.json()
+    for x in range(0,len(weather_data["list"])):
+        if weather_data["list"][x]["weather"][0]["id"] < 700:
+            will_it_rain = True
+
 if will_it_rain:
     send_telegram("It will rain today. Remember to bring an umbrella ☔. Sent via GitHub.")
 else:
