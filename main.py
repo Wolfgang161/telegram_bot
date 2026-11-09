@@ -21,12 +21,11 @@ will_it_rain = False
 def send_telegram(telegram_message):
     send_text="https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage?chat_id=" + BOT_CHATID + "&parse_mode=Markdown&text=" + telegram_message
     requests.get(send_text)
-    #print(response)
 
 try:
     weather_api = requests.get(url="https://api.openweathermap.org/data/2.5/forecast", params= parameters)
 except:
-    send_telegram("There is a problem with the openweathermap request")
+    send_telegram("There is a problem with the openweathermap request. Do not trust the forecast.")
 else:
     weather_data = weather_api.json()
     for x in range(0,len(weather_data["list"])):
