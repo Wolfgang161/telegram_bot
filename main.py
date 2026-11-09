@@ -30,6 +30,6 @@ will_it_rain = False
 #    if weather_data["list"][x]["weather"][0]["id"] < 700:
 #        will_it_rain = True
 if will_it_rain:
-    send_telegram("It will rain today. Remember to bring an umbrella ☔")
+    send_telegram("It will rain today. Remember to bring an umbrella ☔. Sent via GitHub.")
 else:
-    send_telegram("It will not rain. No need to bring an umbrella")
+    send_telegram("It will not rain. No need to bring an umbrella. Sent via GitHub.")
