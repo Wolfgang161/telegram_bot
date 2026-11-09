@@ -1,8 +1,12 @@
 import os
 import requests
+from dotenv import load_dotenv
+
+load_dotenv("./.env")
 
 
 # import os and use it to get the Github repository secrets
+WEATHER_Endpoint = "https://api.openweathermap.org/data/2.5/forecast"
 WEATHER_API_KEY = os.environ.get("WEATHER_API_KEY")
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
 BOT_CHATID = os.environ.get("BOT_CHATID")
@@ -19,11 +23,13 @@ parameters = {
 will_it_rain = False
 
 def send_telegram(telegram_message):
-    send_text="https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage?chat_id=" + BOT_CHATID + "&parse_mode=Markdown&text=" + telegram_message
-    requests.get(send_text)
+    send_text = "https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage?chat_id=" + BOT_CHATID + "&parse_mode=Markdown&text=" + telegram_message
+    response_tele = requests.get(send_text)
+    response_tele.raise_for_status()
 
 try:
-    weather_api = requests.get(url="https://api.openweathermap.org/data/2.5/forecast", params= parameters)
+    weather_api = requests.get(url=WEATHER_Endpoint, params=parameters)
+    weather_api.rais_for_status()
 except:
     send_telegram("There is a problem with the openweathermap request. Do not trust the forecast.")
 else:
