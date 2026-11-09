@@ -23,23 +23,23 @@ jobs:
 
       - name: Check secrets are configured
         env:
-          MY_EMAIL: ${{ secrets.MY_EMAIL }}
-          MY_PASSWORD: ${{ secrets.MY_PASSWORD }}
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          BOT_CHATID: ${{ secrets.BOT_CHATID }}
         run: |
-          if [ -z "$MY_EMAIL" ]; then
-            echo "MY_EMAIL secret is not set!"
+          if [ -z "$BOT_TOKEN" ]; then
+            echo "BOT_TOKEN secret is not set!"
             echo "Go to Settings > Secrets > Actions and add it."
             exit 1
           else
-            echo "MY_EMAIL is configured"
+            echo "BOT_TOKEN is configured"
           fi
 
-          if [ -z "$MY_PASSWORD" ]; then
-            echo "MY_PASSWORD secret is not set!"
+          if [ -z "$BOT_CHATID" ]; then
+            echo "BOT_CHATID secret is not set!"
             echo "Go to Settings > Secrets > Actions and add it."
             exit 1
           else
-            echo "MY_PASSWORD is configured"
+            echo "BOT_CHATID is configured"
           fi
 
           echo ""
