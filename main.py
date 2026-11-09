@@ -29,7 +29,7 @@ def send_telegram(telegram_message):
 
 try:
     weather_api = requests.get(url=WEATHER_Endpoint, params=parameters)
-    weather_api.rais_for_status()
+    weather_api.raise_for_status()
 except:
     send_telegram("There is a problem with the openweathermap request. Do not trust the forecast.")
 else:
