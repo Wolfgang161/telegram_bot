@@ -17,10 +17,10 @@ MY_LAT = os.environ.get("MY_LAT")
 MY_LON = os.environ.get("MY_LON") 
 
 parameters = {
-    "lat":MY_LAT,
-    "lon":MY_LON,
-    "appid":api_key,
-    "cnt":4,
+    "lat": MY_LAT,
+    "lon": MY_LON,
+    "appid": WEATHER_API_KEY,
+    "cnt": 4,
 }
 
 def send_telegram(telegram_message):
