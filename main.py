@@ -1,6 +1,7 @@
 import os
 import requests
 from dotenv import load_dotenv
+from datetime import datetime
 
 load_dotenv("./.env")
 
@@ -20,8 +21,6 @@ parameters = {
     "cnt": 4,
 }
 
-will_it_rain = False
-
 def send_telegram(telegram_message):
     send_text = "https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage?chat_id=" + BOT_CHATID + "&parse_mode=Markdown&text=" + telegram_message
     response_tele = requests.get(send_text)
@@ -31,17 +30,22 @@ try:
     weather_api = requests.get(url=WEATHER_Endpoint, params=parameters)
     weather_api.raise_for_status()
 except:
-    send_telegram("There is a problem with the openweathermap request. Do not trust the forecast.")
+    send_telegram("There is a problem with the openweathermap request.")
 else:
     weather_data = weather_api.json()
-try:
-    for x in range(0, len(weather_data["list"])):
-        if weather_data["list"][x]["weather"][0]["id"] < 700:
-            will_it_rain = True
-except KeyError:
-    send_telegram(f"{str(weather_data)} Do not trust the forecast.")  
+    timestamp_0 = weather_data["list"][0]["dt_txt"]
+    timestamp_1 = weather_data["list"][1]["dt_txt"]
+    timestamp_2 = weather_data["list"][2]["dt_txt"]
+    timestamp_3 = weather_data["list"][3]["dt_txt"]
+    f_0 = "%Y-%m-%d %H:%M:%S"
+    date_0 = datetime.strptime(timestamp_0,f_0)
+    date_1 = datetime.strptime(timestamp_1,f_0)
+    date_2 = datetime.strptime(timestamp_2,f_0)
+    date_3 = datetime.strptime(timestamp_3,f_0)
 
-if will_it_rain:
-    send_telegram("It will rain today. Remember to bring an umbrella ☔. Sent via GitHub.")
-else:
-    send_telegram("It will not rain. No need to bring an umbrella. Sent via GitHub.")
+    send_telegram(f"#-Wettervorhersage vom {date_0.day}.{date_0.month}.{date_0.year}-#\n"
+      f"{date_0.hour} Uhr: {round(weather_data["list"][0]["main"]["temp"] - 273.15,0)}°C {weather_data["list"][0]["weather"][0]["main"]}: {weather_data["list"][0]["weather"][0]["description"]}\n"
+      f"{date_1.hour} Uhr: {round(weather_data["list"][1]["main"]["temp"] - 273.15,0)}°C {weather_data["list"][1]["weather"][0]["main"]}: {weather_data["list"][1]["weather"][0]["description"]}\n"
+      f"{date_2.hour} Uhr: {round(weather_data["list"][2]["main"]["temp"] - 273.15,0)}°C {weather_data["list"][2]["weather"][0]["main"]}: {weather_data["list"][2]["weather"][0]["description"]}\n"
+      f"{date_3.hour} Uhr: {round(weather_data["list"][3]["main"]["temp"] - 273.15,0)}°C {weather_data["list"][3]["weather"][0]["main"]}: {weather_data["list"][3]["weather"][0]["description"]}\n"
+      f"Erstellt vom Jana_Bot um {datetime.now().time().hour} Uhr")
