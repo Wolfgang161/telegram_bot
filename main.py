@@ -33,10 +33,22 @@ weather_data = weather_api.json()
 timestamps = []
 date_format = "%Y-%m-%d %H:%M:%S"
 
+weekdaylist = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitrag", "Samstag", "Sonntag"]
+
+symbol=""
 for x in range (0,4):
     timestamps.append(weather_data["list"][x]["dt_txt"])
-date = [datetime.strptime(x,date_format) for x in timestamps]
+    if 200 < weather_data["list"][x]["weather"][0]["id"] <300:
+        symbol += "⛈"
+    elif 300 < weather_data["list"][x]["weather"][0]["id"] <600:
+        symbol += "🌧"
+    elif 600 < weather_data["list"][x]["weather"][0]["id"] <700:
+        symbol += "🌨"
+    elif weather_data["list"][x]["weather"][0]["id"]==800:
+        symbol += "☀"
+    elif weather_data["list"][x]["weather"][0]["id"]>800:
+        symbol += "☁"
 
-weekdaylist = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitrag", "Samstag", "Sonntag"]
-send_telegram(f"Wetter {weekdaylist[datetime.now().weekday()]}, {date[0].day}.{date[0].month}.{date[0].year}\n{date[0].hour} Uhr: {round(weather_data["list"][0]["main"]["temp"] - 273.15,0)}°C {weather_data["list"][0]["weather"][0]["main"]}: {weather_data["list"][0]["weather"][0]["description"]}\n{date[1].hour} Uhr: {round(weather_data["list"][1]["main"]["temp"] - 273.15,0)}°C {weather_data["list"][1]["weather"][0]["main"]}: {weather_data["list"][1]["weather"][0]["description"]}\n{date[2].hour} Uhr: {round(weather_data["list"][2]["main"]["temp"] - 273.15,0)}°C {weather_data["list"][2]["weather"][0]["main"]}: {weather_data["list"][2]["weather"][0]["description"]}\n{date[3].hour} Uhr: {round(weather_data["list"][3]["main"]["temp"] - 273.15,0)}°C {weather_data["list"][3]["weather"][0]["main"]}: {weather_data["list"][3]["weather"][0]["description"]}")
+date = [datetime.strptime(x,date_format) for x in timestamps]
+send_telegram(f"Guten Morgen Jana! 🦾🦾🦾\nWetter {weekdaylist[datetime.now().weekday()]}, {date[0].day}.{date[0].month}.{date[0].year}\n{date[0].hour} Uhr: {round(weather_data["list"][0]["main"]["temp"] - 273.15,0)}°C {weather_data["list"][0]["weather"][0]["main"]}: {weather_data["list"][0]["weather"][0]["description"]}\n{date[1].hour} Uhr: {round(weather_data["list"][1]["main"]["temp"] - 273.15,0)}°C {weather_data["list"][1]["weather"][0]["main"]}: {weather_data["list"][1]["weather"][0]["description"]}\n{date[2].hour} Uhr: {round(weather_data["list"][2]["main"]["temp"] - 273.15,0)}°C {weather_data["list"][2]["weather"][0]["main"]}: {weather_data["list"][2]["weather"][0]["description"]}\n{date[3].hour} Uhr: {round(weather_data["list"][3]["main"]["temp"] - 273.15,0)}°C {weather_data["list"][3]["weather"][0]["main"]}: {weather_data["list"][3]["weather"][0]["description"]}\n-JanaBot 💚{symbol}")
 
