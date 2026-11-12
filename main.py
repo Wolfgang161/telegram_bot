@@ -38,14 +38,17 @@ weekdaylist = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitrag", "Sams
 symbol=""
 for x in range (0,4):
     timestamps.append(weather_data["list"][x]["dt_txt"])
+    date = [datetime.strptime(x,date_format) for x in timestamps]
     if 200 < weather_data["list"][x]["weather"][0]["id"] <300:
         symbol += "⛈"
     elif 300 < weather_data["list"][x]["weather"][0]["id"] <600:
         symbol += "🌧"
     elif 600 < weather_data["list"][x]["weather"][0]["id"] <700:
         symbol += "🌨"
-    elif weather_data["list"][x]["weather"][0]["id"]==800:
+    elif weather_data["list"][x]["weather"][0]["id"]==800 and 5 < date[x].hour < 18:
         symbol += "☀"
+    elif weather_data["list"][x]["weather"][0]["id"]==800 and (5 > date[x].hour or date[x].hour > 18):
+        symbol += f"🌙"
     elif weather_data["list"][x]["weather"][0]["id"]>800:
         symbol += "☁"
 
